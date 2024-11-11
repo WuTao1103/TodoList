@@ -22,10 +22,11 @@ A modern todo list application built with React and Spring Boot.
 
 - ✨ CRUD operations for todos
 - 🎯 Toggle task completion status
-- 💫 Smooth animations
+- 💫 Smooth animations=
 - 🌓 Dark/Light theme support
 - 🔒 Error handling and logging
 - 🚀 Docker containerization
 - 🌐 CORS support
+- 💻 AI auto extract to-do list
 
 ## Project Structure 
