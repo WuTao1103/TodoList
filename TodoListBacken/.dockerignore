@@ -1,0 +1,11 @@
+.git
+.gitignore
+.env
+target/*
+!target/*.jar
+*.class
+*.log
+.idea/
+*.iml
+npm-debug.log
+node_modules 

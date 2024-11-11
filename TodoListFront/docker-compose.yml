@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      args:
+        - REACT_APP_API_URL=${REACT_APP_API_URL}
+        - REACT_APP_OPENAI_API_KEY=${REACT_APP_OPENAI_API_KEY}
+        - REACT_APP_OPENAI_MODEL=${REACT_APP_OPENAI_MODEL}
+        - REACT_APP_OPENAI_TEMPERATURE=${REACT_APP_OPENAI_TEMPERATURE}
+        - REACT_APP_OPENAI_MAX_TOKENS=${REACT_APP_OPENAI_MAX_TOKENS}
+    network_mode: "host"
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env
