@@ -17,12 +17,12 @@ import java.util.List;
  * @Slf4j 提供日志功能
  * @RestController 标记这是一个REST控制器
  * @RequestMapping("/api") 所有接口都以/api开头
- * @CrossOrigin 允许跨域访问
+ * @CrossOrigin 允许跨域访问（使用全局配置）
  */
 @Slf4j
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://192.168.0.12:3000")
+@CrossOrigin
 public class TodoController {
 
     @Autowired

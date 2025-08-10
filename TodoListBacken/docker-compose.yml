@@ -9,7 +9,7 @@ services:
       - SPRING_PROFILES_ACTIVE=prod
       - JAVA_OPTS=-Xmx512m -Xms256m
       # 使用服务器本地地址
-      - SPRING_DATASOURCE_URL=jdbc:mysql://192.168.0.12:3306/todo_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_URL=jdbc:mysql://192.168.0.50:3306/todo_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=123456
       # 调整日志级别（生产环境建议）

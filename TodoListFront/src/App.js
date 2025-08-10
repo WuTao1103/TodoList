@@ -1,68 +1,82 @@
-import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
-import { Container, Box, Typography } from '@mui/material';
-import { ThemeProvider } from './context/ThemeContext';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
 import { TodoProvider } from './context/TodoContext';
 import { LanguageProvider } from './context/LanguageContext';
-import { lightTheme, darkTheme } from './theme';
-import { useTheme } from './context/ThemeContext';
-import { useLanguage } from './context/LanguageContext';
-import TodoInput from './components/TodoInput';
-import TodoList from './components/TodoList';
-import TodoFilter from './components/TodoFilter';
-import TodoStats from './components/TodoStats';
-import ThemeToggle from './components/ThemeToggle';
-import LanguageToggle from './components/LanguageToggle';
-import TodoExtractor from './components/TodoExtractor';
 
-const AppContent = () => {
-  const { darkMode } = useTheme();
-  const { t } = useLanguage();
+// Import page components
+import MainPage from './pages/MainPage';
+import SubtaskPage from './components/SubtaskPage';
 
+// Create theme
+const theme = createTheme({
+  palette: {
+    mode: 'light', // Can switch to 'dark' as needed
+    primary: {
+      main: '#007AFF',
+    },
+    secondary: {
+      main: '#FF6B6B',
+    },
+    background: {
+      default: '#f5f5f5',
+      paper: '#ffffff',
+    },
+  },
+  typography: {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+    ].join(','),
+  },
+  shape: {
+    borderRadius: 12,
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          borderRadius: 8,
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 12,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+        },
+      },
+    },
+  },
+});
+
+function App() {
   return (
-    <MuiThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-      <div className={`min-h-screen transition-colors duration-300 ${
-        darkMode ? 'bg-background-dark text-white' : 'bg-background-light text-black'
-      }`}>
-        <ThemeToggle />
-        <LanguageToggle />
-        <Container maxWidth="md" className="py-12">
-          <Box className="text-center mb-12">
-            <Typography
-              variant="h3"
-              component="h1"
-              className="font-bold mb-4 bg-gradient-to-r from-primary-light to-blue-500 dark:from-primary-dark dark:to-blue-400 bg-clip-text text-transparent"
-            >
-              {t('title')}
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              className="text-gray-600 dark:text-gray-400"
-            >
-              {t('subtitle')}
-            </Typography>
-          </Box>
-
-          <TodoStats />
-          <TodoFilter />
-          <TodoExtractor />
-          <TodoInput />
-          <TodoList />
-        </Container>
-      </div>
-    </MuiThemeProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <LanguageProvider>
+          <TodoProvider>
+            <Router>
+              <div className="App">
+                <Routes>
+                  <Route path="/" element={<MainPage />} />
+                  <Route path="/todo/:todoId/subtasks" element={<SubtaskPage />} />
+                </Routes>
+              </div>
+            </Router>
+          </TodoProvider>
+        </LanguageProvider>
+      </ThemeProvider>
   );
-};
+}
 
-const App = () => {
-  return (
-    <ThemeProvider>
-      <LanguageProvider>
-        <TodoProvider>
-          <AppContent />
-        </TodoProvider>
-      </LanguageProvider>
-    </ThemeProvider>
-  );
-};
-
-export default App; 
+export default App;
