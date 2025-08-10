@@ -1,40 +1,57 @@
 package com.example.todolist.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 全局异常处理器
- * @Slf4j 提供日志功能
- * @RestControllerAdvice 标记这是一个REST全局异常处理器
+ * 统一处理应用中的异常，返回标准化的错误响应
  */
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    
+
     /**
-     * 处理EntityNotFoundException异常
-     * @param e 实体未找到异常
-     * @return 404响应
+     * 处理实体不存在异常
+     * @param ex EntityNotFoundException
+     * @return 404 错误响应
      */
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException e) {
-        log.error("实体未找到: {}", e.getMessage());
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<Map<String, Object>> handleEntityNotFound(EntityNotFoundException ex) {
+        log.error("实体不存在异常: {}", ex.getMessage());
+
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("timestamp", LocalDateTime.now());
+        errorResponse.put("status", HttpStatus.NOT_FOUND.value());
+        errorResponse.put("error", "Not Found");
+        errorResponse.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
-    
+
     /**
-     * 处理所有其他未捕获的异常
-     * @param e 异常
-     * @return 500响应
+     * 处理参数验证异常
+     * @param ex IllegalArgumentException
+     * @return 400 错误响应
      */
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleGeneralException(Exception e) {
-        log.error("发生错误: {}", e.getMessage());
-        return ResponseEntity.internalServerError().body("服务器内部错误");
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, Object>> handleIllegalArgument(IllegalArgumentException ex) {
+        log.error("参数异常: {}", ex.getMessage());
+
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("timestamp", LocalDateTime.now());
+        errorResponse.put("status", HttpStatus.BAD_REQUEST.value());
+        errorResponse.put("error", "Bad Request");
+        errorResponse.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
-} 
+}
