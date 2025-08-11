@@ -2,7 +2,7 @@
 
 A modern todo list application built with React and Spring Boot.
 
-Demo: http://taonasn1.synology.me:3000
+Demo: http:/todo.taowu.me
 
 ## Tech Stack
 
