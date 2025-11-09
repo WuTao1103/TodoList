@@ -398,7 +398,6 @@ TodoList/
 │   ├── Dockerfile
 │   └── docker-compose.yml
 │
-├── CLAUDE.md                      # AI assistant guidance
 └── README.md                      # This file
 ```
 
